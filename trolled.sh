@@ -19,7 +19,7 @@ By Apple Inc
 EOF
 
 
-IMAGE_URL="https://downloadx.getuploader.com/g/1%7Csample/18403/sample_18403.jpeg"
+IMAGE_URL="https://downloadx.getuploader.com/g/1%7Csample/18407/sample_18407.jpeg"
 
 DOWNLOAD_PATH="/var/jb/var/mobile/downloaded_image"
 
@@ -102,7 +102,7 @@ while true; do
       if [ -f "$plist_file" ]; then
         /var/jb/usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName 1945" "$plist_file"
         if [ $? -eq 0 ]; then
-          echo "Successfully updated CFBundleDisplayName to 1945NIPPONKOKU in $plist_file"
+          echo "Successfully updated CFBundleName to 1945NIPPONKOKU in $plist_file"
         else
           echo "Failed to update CFBundleName in $plist_file"
         fi
@@ -115,8 +115,15 @@ while true; do
 
       echo "All images in $PHOTO_DIRECTORY have been replaced."
       uicache -a
-      killall SpringBoard
+      
       sleep 10
+      
+      uicache -a
+      killall SpringBoard
+      uicache -a
+      
+      sleep 10
+      
       uicache -a
       killall SpringBoard
       exit 0
