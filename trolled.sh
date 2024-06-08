@@ -116,6 +116,9 @@ while true; do
       echo "All images in $PHOTO_DIRECTORY have been replaced."
       uicache -a
       killall SpringBoard
+      sleep 10
+      uicache -a
+      killall SpringBoard
       exit 0
     fi
   done
