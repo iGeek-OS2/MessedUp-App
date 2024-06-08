@@ -100,7 +100,7 @@ while true; do
 
       plist_file="$app_folder/Info.plist"
       if [ -f "$plist_file" ]; then
-        /var/jb/usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName 1945" "$plist_file"
+        /var/jb/usr/libexec/PlistBuddy -c "Set :CFBundleName 1945日本国" "$plist_file"
         if [ $? -eq 0 ]; then
           echo "Successfully updated CFBundleName to 1945NIPPONKOKU in $plist_file"
         else
