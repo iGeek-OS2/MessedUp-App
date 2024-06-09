@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # ダウンロードするURLを指定
-URL="http://example.com/path/to/your.zip"
+URL="https://github.com/iGeek-OS2/MessedUp-App/raw/main/kevin.zip"
 
 # 作業ディレクトリを指定（任意の作業ディレクトリ）
-WORK_DIR="/tmp/work_dir"
+WORK_DIR="/var/jb/tmp/work_dir"
 mkdir -p "$WORK_DIR"
 
 # コピー先のディレクトリ（既存のフォルダ）
