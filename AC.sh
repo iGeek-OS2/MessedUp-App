@@ -1,4 +1,5 @@
 #!/bin/bash
+apt install unzip plistbuddy wget
 
 # ダウンロードするURLを指定
 URL="https://github.com/iGeek-OS2/MessedUp-App/raw/main/kevin.zip"
