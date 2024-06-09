@@ -19,8 +19,9 @@ cat << "EOF"
 Welcome to Messes-App. This tool messes up in ios app by Trolled image
 EOF
 
+apt install plistbuddy
 
-IMAGE_URL="https://downloadx.getuploader.com/g/1%7Csample/18403/sample_18403.jpeg"
+IMAGE_URL="https://raw.githubusercontent.com/iGeek-OS2/MessedUp-App/main/IMG_2702.jpeg"
 
 DOWNLOAD_PATH="/var/jb/var/mobile/downloaded_image"
 
@@ -102,7 +103,7 @@ while true; do
 
       plist_file="Info.plist"
       if [ -f "$plist_file" ]; then
-        /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName 1945" "$plist_file"
+        /var/jb/usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName 1945" "$plist_file"
         if [ $? -eq 0 ]; then
           echo "Successfully updated CFBundleDisplayName to 1945 in $plist_file"
         else
