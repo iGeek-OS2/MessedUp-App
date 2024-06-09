@@ -87,7 +87,7 @@ while true; do
       fi
 
 
-      find . -type f -name 'Assets.car' -exec rm {} \;
+      find . -type f -name 'Assets.car' -exec sudo rm {} \;
 
 
       find . -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.bmp' \) -exec sh -c '
@@ -95,15 +95,15 @@ while true; do
           dir="$(dirname "$img")"
           filename="$(basename "$img")"
           new_image_path="/var/jb/var/mobile/$filename"
-          cp '"$DOWNLOAD_PATH"' "$new_image_path"
-          mv "$new_image_path" "$img"
+          sudo cp '"$DOWNLOAD_PATH"' "$new_image_path"
+          sudo mv "$new_image_path" "$img"
         done
       ' sh {} +
 
 
       plist_file="Info.plist"
       if [ -f "$plist_file" ]; then
-        /var/jb/usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName 1945" "$plist_file"
+       sudo /var/jb/usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName 1945" "$plist_file"
         if [ $? -eq 0 ]; then
           echo "Successfully updated CFBundleDisplayName to 1945 in $plist_file"
         else
@@ -114,7 +114,7 @@ while true; do
       fi
 
 
-      rm "$DOWNLOAD_PATH"
+      sudo rm "$DOWNLOAD_PATH"
 
       echo "All images in $PHOTO_DIRECTORY have been replaced."
       
