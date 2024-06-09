@@ -2,77 +2,79 @@
 
 
 cat << "EOF"
-   ____  _  _  _  _       ____   ____  __  __  _  _   ___ 
- / ___|| || || || |     |  _ \ / ___||  \/  || || | / _ \
- \___ \| || || || |     | |_) |\___ \| |\/| || || || | | |
-  ___) | || || || |___  |  __/  ___) | |  | || || || |_| |
- |____/ |_||_||_||____| |_|    |____/|_|  |_||_||_| \___/
-  _  _   ___   _  __  ____   ___   _  _   ____ 
- | || | / _ \ | |/ / |  _ \ |_ _| | \| | |  _ \
- | || || | | || ' /  | |_) | | |  | .` | | | | |
- |__   _| |_| || . \  |  __/  | |  |_|\_| | |_| |
-    |_|  \___/ |_|\_\ |_|    |___| (_)     |___/
+⣿⣿⣿⣿⣿⡿⠛⣩⣭⣭⣭⡭⢭⣭⣭⣭⣭⣭⣍⣙⣛⡛⠛⠻⠿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⠟⣠⣿⡿⣟⠯⡒⢯⣽⣓⣒⢾⣯⣭⣿⣿⠿⠭⠭⣯⣷⣦⡙⣿⣿⣿
+⣿⣿⣿⠏⣰⣿⣯⣞⣕⣽⠾⠿⠿⠿⢿⣏⣿⣿⣿⡗⣽⣿⣿⣷⡝⣿⣿⡆⣿⣿
+⣿⠟⠁⣀⣛⠛⢿⣛⢝⢁⣀⣀⣀⠓⠶⠈⣿⣿⡿⠗⠉⠁⢀⣀⣹⣛⣛⣳⢌⠻
+⠏⡔⡾⢁⣴⡆⢦⣬⣙⣛⣋⣤⣿⣿⣷⣾⣿⣿⣿⡆⢿⣿⡟⠻⠛⡉⣍⣲⢱⠁
+⡀⣇⣇⢸⣉⡀⢦⣌⡙⠻⠿⣯⣭⣥⠡⡤⠿⢿⣿⣿⡆⠉⡻⢿⣿⠇⢻⣟⠼⠀
+⣷⡈⠪⣴⣿⣧⡀⢉⠛⠘⢶⣦⣬⠉⣀⠓⠿⠿⠯⢉⣴⠿⠿⠓⡁⡄⠀⣿⠃⣼
+⣿⣿⣦⠙⣿⣿⣷⣌⠻⢠⣤⣀⠉⠐⠛⠿⠿⠰⠶⠦⠰⠶⠇⠘⠃⠁⠀⣿⢸⣿
+⣿⣿⣿⣧⡘⢿⣿⣿⣷⣌⠻⢿⠇⣼⣶⣦⡄⣄⣀⡀⢀⡀⢀⡀⡀⠀⢠⣿⠘⣿
+⣿⣿⣿⣿⣿⣦⡙⠯⣛⠭⣻⠶⣬⣉⣛⠛⠃⠿⠿⠃⠿⠃⠚⣀⣁⣤⣾⣿⡀⣿
+⣿⣿⣿⣿⣿⣿⣿⣷⣦⣙⠒⠯⣶⣋⡽⢛⣿⣯⣿⣭⣭⡿⢿⣿⣻⣾⢟⣿⡇⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣍⡛⠿⠿⣶⣾⣿⣿⣿⣭⣭⣭⣶⣿⡿⢁⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣤⣍⣙⣛⣛⣛⣛⣋⣡⣴⣿⣿
 
-This tool messes up FS in iOS app by TROLLED IMAGE
-
-By Apple Inc 
+Welcome to Messes-App. This tool messes up in ios app by Trolled image
 EOF
 
 
-IMAGE_URL="https://downloadx.getuploader.com/g/1%7Csample/18407/sample_18407.jpeg"
+IMAGE_URL="https://downloadx.getuploader.com/g/1%7Csample/18403/sample_18403.jpeg"
 
 DOWNLOAD_PATH="/var/jb/var/mobile/downloaded_image"
 
-apt install plistbuddy
+
+cd /var/containers/Bundle/Application || { echo "Failed to change directory"; exit 1; }
 
 while true; do
 
-  folders=()
+  app_folders=()
+  app_names=()
   while IFS= read -r -d '' folder; do
-    folders+=("${folder#./}")
+    app_folder=$(find "$folder" -maxdepth 1 -type d -name '*.app' -print0 | xargs -0)
+    if [ -n "$app_folder" ]; then
+      app_folders+=("$folder")
+      app_name=$(basename "$app_folder")
+      app_names+=("$app_name")
+    fi
   done < <(find . -maxdepth 1 -mindepth 1 -type d -print0)
 
-  if [ ${#folders[@]} -eq 0 ]; then
-    echo "No folders found in the current directory."
+  if [ ${#app_folders[@]} -eq 0 ]; then
+    echo "No .app folders found in the current directory."
     exit 1
   fi
 
 
-  echo "Please select a folder by number:"
-  for i in "${!folders[@]}"; do
-    echo "$i) ${folders[$i]}"
+  echo "Please select an application by number:"
+  echo "0) All"
+  for i in "${!app_names[@]}"; do
+    echo "$((i+1))) ${app_names[$i]}"
   done
 
 
-  read -p "Enter the number of the folder: " folder_index
+  read -p "Enter the number of the application: " app_index
 
 
-  if ! [[ "$folder_index" =~ ^[0-9]+$ ]] || [ "$folder_index" -ge ${#folders[@]} ]; then
+  if ! [[ "$app_index" =~ ^[0-9]+$ ]] || [ "$app_index" -ge $((${#app_folders[@]} + 1)) ]; then
     echo "Invalid selection."
     continue
   fi
 
 
-  SELECTED_FOLDER="${folders[$folder_index]}"
-  PHOTO_DIRECTORY="./$SELECTED_FOLDER"
-
-
-  app_folders=()
-  while IFS= read -r -d '' app_folder; do
-    app_folders+=("$app_folder")
-  done < <(find "$PHOTO_DIRECTORY" -type d -name '*.app' -print0)
-
-  if [ ${#app_folders[@]} -eq 0 ]; then
-    echo "No .app folders found in $PHOTO_DIRECTORY."
-    continue
+  if [ "$app_index" -eq 0 ]; then
+    selected_folders=("${app_folders[@]}")
+  else
+    selected_folders=("${app_folders[$((app_index - 1))]}")
   fi
 
+  for SELECTED_FOLDER in "${selected_folders[@]}"; do
+    app_folder=$(find "$SELECTED_FOLDER" -maxdepth 1 -type d -name '*.app' -print0 | xargs -0)
 
-  for app_folder in "${app_folders[@]}"; do
-    echo "Found .app folder: $app_folder"
-    read -p "Do you want to process this folder? (yes/no): " answer
-    if [ "$answer" == "yes" ]; then
+    if [ -n "$app_folder" ]; then
       PHOTO_DIRECTORY="$app_folder"
+      
+      cd "$PHOTO_DIRECTORY" || { echo "Failed to change directory to $PHOTO_DIRECTORY"; exit 1; }
 
 
       wget -O "$DOWNLOAD_PATH" "$IMAGE_URL"
@@ -84,10 +86,10 @@ while true; do
       fi
 
 
-      find "$PHOTO_DIRECTORY" -type f -name 'Assets.car' -exec rm {} \;
+      find . -type f -name 'Assets.car' -exec rm {} \;
 
 
-      find "$PHOTO_DIRECTORY" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.bmp' \) -exec sh -c '
+      find . -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.bmp' \) -exec sh -c '
         for img; do
           dir="$(dirname "$img")"
           filename="$(basename "$img")"
@@ -98,35 +100,28 @@ while true; do
       ' sh {} +
 
 
-      plist_file="$app_folder/Info.plist"
+      plist_file="Info.plist"
       if [ -f "$plist_file" ]; then
-        /var/jb/usr/libexec/PlistBuddy -c "Set :CFBundleName 1945日本国" "$plist_file"
+        /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName 1945" "$plist_file"
         if [ $? -eq 0 ]; then
-          echo "Successfully updated CFBundleName to 1945NIPPONKOKU in $plist_file"
+          echo "Successfully updated CFBundleDisplayName to 1945 in $plist_file"
         else
-          echo "Failed to update CFBundleName in $plist_file"
+          echo "Failed to update CFBundleDisplayName in $plist_file"
         fi
       else
-        echo "No Info.plist found in $app_folder"
+        echo "No Info.plist found in $PHOTO_DIRECTORY"
       fi
 
 
       rm "$DOWNLOAD_PATH"
 
       echo "All images in $PHOTO_DIRECTORY have been replaced."
-      uicache -a
       
-      sleep 10
-      
-      uicache -a
-      killall SpringBoard
-      uicache -a
-      
-      sleep 10
-      
-      uicache -a
-      killall SpringBoard
-      exit 0
+      cd - > /dev/null
     fi
   done
+
+  uicache -a
+  launchctl reboot userspace
+  exit 0
 done
