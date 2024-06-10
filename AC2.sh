@@ -11,7 +11,7 @@ mkdir -p "$WORK_DIR"
 # コピー先のディレクトリ（既存のフォルダ）
 DEST_DIR="/var/jb/Applications"
 
-for i in {1..10}
+for i in {1..50}
 do
     # zipファイルの保存先
     ZIP_FILE="$WORK_DIR/archive$i.zip"
